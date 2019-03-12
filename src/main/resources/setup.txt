@@ -1,0 +1,45 @@
+sudo apt-get install openjdk-8-jdk
+sudo apt-get install maven
+sudo apt-get install postgresql
+sudo apt-get install pgadmin3
+sudo apt-get install git
+sudo apt-get install meld
+
+
+
+
+git status
+git clone ......
+git checkout 'file_name'
+
+git add .
+git commit -m "message"
+git push
+
+git pull
+
+
+
+bitbucket id:
+https://sultaniyachetan@bitbucket.org/gdodia/smartdeals.git
+
+
+youtube video
+(How to upload project files to Bitbucket | Manage project using git | Bitbucket Introduction)
+https://www.youtube.com/watch?v=sXPUTKXXX6E&t=238s
+
+
+How to change password of pgAdmin
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres1';"
+
+@upload project
+git remote add origin https://sultaniyachetan@bitbucket.org/sultaniyachetan/bookvilla.git 
+git push -u origin master
+
+@download whole project
+git clone https://sultaniyachetan@bitbucket.org/sultaniyachetan/bookvilla.git
+
+@run project
+mvn clean jetty:run
+
+

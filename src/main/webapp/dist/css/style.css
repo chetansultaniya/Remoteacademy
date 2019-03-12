@@ -1,0 +1,55 @@
+.con
+{
+  margin-top: 100px;
+  position: relative;
+}
+
+.content
+{
+    font-size: 40px;
+}
+.img
+{
+    width:64px;
+    height:64px;
+}
+
+
+.dd
+{
+    border:2px solid grey;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: white;
+    color:black;
+    transitoin-property:all;
+    transition-duration: 400ms;
+    transition-timing-function:ease-out;
+}
+.dd:hover
+{
+    background-color:#007bff;
+    color: white;
+    border-color: #007bff;
+    cursor: pointer;
+}
+p
+{
+    font-family: Open Sans;
+    font-size: 20px;
+  
+}
+
+span
+{
+    font-size:15px;
+    font-family: Open Sans;
+}
+.searchbox
+{
+    margin-top: 4px;
+}
+.btns
+{
+    width:150px;
+}
