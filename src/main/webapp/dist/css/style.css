@@ -1,12 +1,16 @@
 .con
 {
-  margin-top: 100px;
+  margin-top: 70px;
   position: relative;
 }
 
 .content
 {
     font-size: 40px;
+}
+.mytable
+{
+	font-size: 12px;
 }
 .img
 {
@@ -52,4 +56,30 @@ span
 .btns
 {
     width:150px;
+}
+.tab
+{
+	display:none;
+}
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;  
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+.step.active {
+  opacity: 3;
+  background-color:#4b4b4b;
+}
+
+.step.finish {
+  background-color: #0000ff;
+}
+.cb
+{
+	cursor: pointer;
 }
