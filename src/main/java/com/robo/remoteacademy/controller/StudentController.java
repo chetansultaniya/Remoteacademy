@@ -173,13 +173,14 @@ public class StudentController {
 			
 			
 			student=(Student)studentRepo.findById(requestParams.get("id")).orElse(null);
+			student.setName(requestParams.get("name"));		
 			System.out.println("old student found");
 		}
 		
 	if(student!=null)
 	{
 		
-		student.setName(requestParams.get("name"));		
+		
 		student.setMobile(requestParams.get("mobile"));
 		student.setEmail(requestParams.get("email"));
 		student.setDob(requestParams.get("dob"));
