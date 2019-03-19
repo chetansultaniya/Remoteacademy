@@ -1,7 +1,9 @@
 <%@include file="blocks/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@include file="blocks/adminHeader.jsp" %>
 <div class="container">
 	<div class="container">
+	
 		<p class="display-4">Admin List</p>
 
 
@@ -86,7 +88,13 @@
 						<td>${admin.email}</td>
 						
 						<td><form action="/admin/show/deleteadmin/${admin.adminId}">
-								<button class="btn btn-danger glyphicon glyphicon-remove"></button>
+								<button class="btn btn-danger glyphicon glyphicon-remove" 
+								
+								
+							
+								
+								
+								></button>
 							</form></td>
 					</tr>
 					
@@ -96,8 +104,6 @@
 			</tbody>
 
 		</table>
-
-
 
 	</div>
 </div>

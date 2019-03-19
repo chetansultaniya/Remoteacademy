@@ -1,5 +1,5 @@
 <%@include file="blocks/header.jsp" %>
-<div class="card-header text-center bg-danger text-white"><h3>Teacher Registartion</h3></div>
+<div class="card-header text-center bg-danger text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/teacher/show/teachers"><span class="backbtn">Back</span></a><h3>Teacher Registration</h3></div>
 <div class="container con border rounded w-50" >
 
     <div class="display-4 content text-center"><img src="${baseURL}/dist/icons/tutor_1.png"></div>

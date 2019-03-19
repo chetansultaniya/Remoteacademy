@@ -3,6 +3,9 @@ package com.robo.remoteacademy.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,14 +35,32 @@ public class DemoController {
 	TeacherRepository teacherRepo;
 	
 
-	 
-
 
 	@RequestMapping(value = "/show/index", method = RequestMethod.GET)
-	public ModelAndView index() {
+	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
-		mv.addObject("title");
-		return mv;
+		ModelAndView mv2=new ModelAndView("admindashboard");
+		
+		
+		
+HttpSession session=request.getSession();
+		
+		Admin admin;
+
+		if(session.getAttribute("email")!=null)
+		{
+			String sessionEmail=(String)session.getAttribute("email");
+			admin = adminRepo.findByEmail(sessionEmail).orElse(null);
+			mv.addObject("adminDetail", admin);
+			return mv2;
+		}
+		else
+		{
+			mv.addObject("title");
+			return mv;
+			
+		}
+	
 	}
 
 

@@ -1,8 +1,9 @@
 <%@include file="blocks/header.jsp" %>
-<div class="card-header text-center bg-danger text-white"><h3>Student Registartion</h3></div>
+<div class="card-header text-center bg-danger text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/student/show/students"><span class="backbtn">Back</span></a>
+<h3>Student Registration</h3></div>
 <div class="container con border rounded w-50" >
     <div class="display-4 content text-center"><img src="${baseURL}/dist/icons/student_1.png"></div>
-    <form class="p-2" action="/student/show/save" method="post" id="form">
+   <form class="p-2" action="/student/show/save" method="post" id="form">
     <div class="form-group row">
     <div class="form-group col tab"><h1>Student Profile</h1>
     <div class="form-group col-md-12 mt-3">

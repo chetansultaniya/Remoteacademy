@@ -7,6 +7,9 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.robo.remoteacademy.model.Admin;
 import com.robo.remoteacademy.model.Student;
+import com.robo.remoteacademy.repository.AdminRepository;
 import com.robo.remoteacademy.repository.StudentRepository;
 import com.robo.remoteacademy.service.StudentService;
 
@@ -31,8 +36,14 @@ public class StudentController {
 	@Autowired
 	StudentRepository studentRepo;
 	
-	@Autowired
-	StudentService studentService;
+	
+
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView adminDashboard() {
+		ModelAndView mv = new ModelAndView("studentLogin");
+
+		return mv;
+	}
 
 	
 	@RequestMapping(value = "/index",method = RequestMethod.GET)
@@ -46,9 +57,11 @@ public class StudentController {
 	int pageNo=0;
 	int data=10;
 	@RequestMapping(value = "/show/students",method=RequestMethod.GET)
-	public ModelAndView showStudents(@RequestParam Map<String,String> requestParams)
+	public ModelAndView showStudents(@RequestParam Map<String,String> requestParams,HttpServletRequest request)
 	{
 		ModelAndView mv=new ModelAndView("students");
+		
+		
 		
 		Pageable pageable=new PageRequest(pageNo,data);
 		
@@ -134,8 +147,14 @@ public class StudentController {
 		}
 		Page page=studentRepo.findAll(pageable);
 		
+		HttpSession session=request.getSession();
+		
+		
+		
 		mv.addObject("studentList", page.getContent());
 		mv.addObject("totalPage",page.getTotalPages());
+		mv.addObject("adminDetail",session.getAttribute("name"));
+
 		
 		return mv;
 		
@@ -158,7 +177,7 @@ public class StudentController {
 
 		Student student;
 		
-		System.out.println("student request"+requestParams.size());
+		
 		if(requestParams.size()==17)
 		{
 			student=new Student();
@@ -166,7 +185,7 @@ public class StudentController {
 			student.setStudentId(requestParams.get("id"));
 			student.setName(requestParams.get("firstname")+" "+requestParams.get("lastname"));
 
-			System.out.println("new student created");
+		
 		}
 		else
 		{
@@ -174,7 +193,7 @@ public class StudentController {
 			
 			student=(Student)studentRepo.findById(requestParams.get("id")).orElse(null);
 			student.setName(requestParams.get("name"));		
-			System.out.println("old student found");
+			
 		}
 		
 	if(student!=null)
@@ -194,7 +213,7 @@ public class StudentController {
 		student.setStudentClass(requestParams.get("class"));
 		student.setInstitute(requestParams.get("institute"));
 		Student saveResponse=studentRepo.save(student);
-		System.out.println("student saaved:"+requestParams.get("id"));
+		
 		
 		
 	}

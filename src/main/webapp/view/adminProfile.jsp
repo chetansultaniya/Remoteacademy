@@ -1,10 +1,13 @@
 <%@include file="blocks/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div class="card-header text-center bg-danger text-white"><h3>Edit Admin</h3></div>
+<div class="card-header text-center bg-danger text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/admin/show/admins"><span class="backbtn">Back</span></a>
+<h3>Edit Admin</h3></div>
+
 <div class="container mt-2" id="dataBody">
+
 <form action="/admin/show/save" method="post">
   
-<div class="card">
+<div class="card mt-2">
   <div class="card-header bg-dark text-white"><h4>Basic Detail</h4></div>
  
   <div class="card-body form-group">
@@ -30,7 +33,7 @@
   </div>
   
   <div class="row justify-content-center">
-  <button type="button" class="btn btn-danger col-1">Cancel</button>
+   <a href="/admin/show/admins" class="btn btn-danger col-1 text-white" >Cancel</a>
   <button type="submit" class="btn btn-primary ml-4 col-1">Submit</button>
 </div>
 </div>

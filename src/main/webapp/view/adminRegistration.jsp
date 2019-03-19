@@ -1,5 +1,6 @@
 <%@include file="blocks/header.jsp" %>
-<div class="card-header text-center bg-danger text-white"><h3>Admin Registartion</h3></div>
+<div class="card-header text-center bg-danger text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/admin/show/admins"><span class="backbtn">Back</span></a>
+<h3>Admin Registration</h3></div>
 <div class="container con border rounded w-50">
     <div class="display-4 content text-center"><img src="${baseURL}/dist/icons/tutor_1.png"></div>
     <form class="row p-3" action="/admin/show/save" method="post" id="form">

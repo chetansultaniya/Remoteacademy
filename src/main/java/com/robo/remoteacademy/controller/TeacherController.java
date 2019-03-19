@@ -3,6 +3,9 @@ package com.robo.remoteacademy.controller;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,11 +28,20 @@ public class TeacherController {
 	@Autowired
 	TeacherRepository teacherRepo;
 	
+	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView adminDashboard() {
+		ModelAndView mv = new ModelAndView("teacherLogin");
+
+		return mv;
+	}
+	
+	
 	int x=4;
 	int pageNo=0;
 	int data=10;
 	@RequestMapping(value = "/show/teachers",method=RequestMethod.GET)
-	public ModelAndView showTeachers(@RequestParam Map<String, String> requestParams)
+	public ModelAndView showTeachers(@RequestParam Map<String, String> requestParams,HttpServletRequest request)
 	{
 		ModelAndView mv=new ModelAndView("teachers");
 		
@@ -118,8 +130,11 @@ Pageable pageable=new PageRequest(pageNo,data);
 		}
 		Page page=teacherRepo.findAll(pageable);
 		
+		HttpSession session=request.getSession();
+		
 		mv.addObject("teacher", page.getContent());
 		mv.addObject("totalPage",page.getTotalPages());
+		mv.addObject("adminDetail",session.getAttribute("name"));
 		
 		
 		
@@ -151,13 +166,13 @@ Teacher teacher;
 			
 			
 			teacher=(Teacher)teacherRepo.findById(requestParams.get("id")).orElse(null);
-			
+			teacher.setName(requestParams.get("name"));	
 		}
 		
 	if(teacher!=null)
 	{
 		
-		teacher.setName(requestParams.get("name"));		
+			
 		teacher.setMobile(requestParams.get("mobile"));
 		teacher.setEmail(requestParams.get("email"));
 		teacher.setDob(requestParams.get("dob"));
@@ -171,7 +186,7 @@ Teacher teacher;
 		teacher.setQualification(requestParams.get("qualification"));
 		teacher.setExperience(requestParams.get("experience"));
 		Teacher saveResponse=teacherRepo.save(teacher);
-		System.out.println("student saaved:"+requestParams.get("id"));
+		
 		
 		
 	}

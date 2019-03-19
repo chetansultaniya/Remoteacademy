@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.jasper.tagplugins.jstl.core.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,32 +32,68 @@ public class AdminController {
 	@Autowired
 	AdminRepository adminRepo;
 
-	@RequestMapping(value = "/show/admin", method = RequestMethod.GET)
-	public ModelAndView showAdmins() {
-		ModelAndView mv = new ModelAndView("admins");
+	
 
-		mv.addObject("adminList", adminRepo.findAll());
-
-		return mv;
-
+	
+	public void createSession(HttpServletRequest request,Admin admin)
+	{
+		request.getSession().setAttribute("email", admin.getEmail());
+		request.getSession().setAttribute("name", admin.getName());
+		request.getSession().setAttribute("id", admin.getAdminId());
 	}
-
+	
+	
+	@RequestMapping("/logout")
+	public ModelAndView logOut(HttpServletRequest request){
+		
+		ModelAndView mv=new ModelAndView("index");
+		
+		HttpSession session=request.getSession();
+		session.invalidate();
+		
+		return mv;
+		
+	}
+	
 	@RequestMapping(value = "/show/admindashboard", method = RequestMethod.POST)
-	public ModelAndView adminDashboard(@RequestParam("email") String email, @RequestParam("password") String password) {
+	public ModelAndView adminDashboard(HttpServletRequest request,@RequestParam Map<String,String> requestParams) {
 		ModelAndView mv = new ModelAndView("admindashboard");
 		ModelAndView mv2 = new ModelAndView("redirect:/remoteacademy/show/index");
 
-		Admin admin = adminRepo.findByEmail(email).orElse(null);
-
-		if (admin != null) {
-			if (admin.getPassword().equals(password)) {
-				return mv;
-			} else {
+		HttpSession session=request.getSession();
+		
+		Admin admin;
+		
+		if(session.getAttribute("email")==null)
+		{
+			admin = adminRepo.findByEmail(requestParams.get("email")).orElse(null);
+			if(admin!=null)
+			{
+				if (admin.getPassword().equals(requestParams.get("password"))) {
+					
+					createSession(request, admin);
+					
+					
+					mv.addObject("adminDetail", admin);
+					return mv;
+				} else {
+					return mv2;
+				}		
+			}
+			else
+			{
 				return mv2;
 			}
-		} else {
-			return mv2;
+
 		}
+		else
+		{
+			String sessionEmail=(String)session.getAttribute("email");
+			admin = adminRepo.findByEmail(sessionEmail).orElse(null);
+			mv.addObject("adminDetail", admin);
+			return mv;
+		}
+		
 
 	}
 
@@ -76,7 +116,7 @@ public class AdminController {
 	int pageNo=0;
 	int data=10;
 	@RequestMapping(value = "/show/admins",method=RequestMethod.GET)
-	public ModelAndView showStudents(@RequestParam Map<String,String> requestParams)
+	public ModelAndView showStudents(@RequestParam Map<String,String> requestParams,HttpServletRequest request)
 	{
 		ModelAndView mv=new ModelAndView("admins");
 		
@@ -164,8 +204,12 @@ public class AdminController {
 		}
 		Page page=adminRepo.findAll(pageable);
 		
+		HttpSession session=request.getSession();
+		
+		
 		mv.addObject("admin", page.getContent());
 		mv.addObject("totalPage",page.getTotalPages());
+		mv.addObject("adminDetail",session.getAttribute("name"));
 		
 		return mv;
 		
@@ -194,14 +238,12 @@ public class AdminController {
 	
 	
 	@RequestMapping(value = "/show/save",method = RequestMethod.POST)
-	public ModelAndView saveStudent(@RequestParam Map<String,String> requestParams)
+	public ModelAndView saveStudent(@RequestParam Map<String,String> requestParams,HttpServletRequest request)
 	{
 		ModelAndView mv=new ModelAndView("redirect:/admin/show/admins");
 
 		Admin admin;
 		
-		
-		System.out.println(requestParams);
 		
 		if(requestParams.size()==6)
 		{
@@ -215,6 +257,11 @@ public class AdminController {
 		{
 			admin=(Admin)adminRepo.findById(requestParams.get("id")).orElse(null);
 			admin.setName(requestParams.get("name"));
+			
+			
+			
+			
+			
 		}
 		
 		
@@ -225,6 +272,16 @@ public class AdminController {
 			admin.setEmail(requestParams.get("email"));
 			
 			adminRepo.save(admin);
+			
+			HttpSession session=request.getSession();
+			
+			
+			if(admin.getAdminId().equals(""+session.getAttribute("id")))
+			{
+				createSession(request, admin);	
+			}
+			
+			
 			
 		}
 		
