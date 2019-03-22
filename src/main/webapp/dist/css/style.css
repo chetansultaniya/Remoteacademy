@@ -97,7 +97,17 @@ span
 .step.finish {
   background-color: #0000ff;
 }
-.cb
+input[type="checkbox"]
 {
-	cursor: pointer;
+ -webkit-transform: scale(1.3);
+ cursor:pointer;
+}
+.signUpBtn
+{
+	cursor:pointer;
+}
+.error
+{
+	background-color:#FFCCCC;
+	
 }

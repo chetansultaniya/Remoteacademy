@@ -1,11 +1,15 @@
 package com.robo.remoteacademy.controller;
 
 
+import java.lang.management.MemoryType;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,13 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.robo.remoteacademy.model.Admin;
 import com.robo.remoteacademy.model.Student;
-import com.robo.remoteacademy.repository.AdminRepository;
 import com.robo.remoteacademy.repository.StudentRepository;
-import com.robo.remoteacademy.service.StudentService;
 
-import antlr.collections.List;
+
 
 @RestController
 @RequestMapping("/student/")
@@ -38,21 +39,161 @@ public class StudentController {
 	
 	
 
+	
+	
+	
+	public void createSession(HttpServletRequest request,Student student)
+	{
+		HttpSession session=request.getSession();
+		request.getSession().setAttribute("studentEmail", student.getEmail());
+		request.getSession().setAttribute("studentName", student.getName());
+		request.getSession().setAttribute("studentId", student.getStudentId());
+	
+		
+	}
+	public void removeSession(HttpServletRequest request)
+	{
+		HttpSession session=request.getSession();
+		session.removeAttribute("studentEmail");
+		session.removeAttribute("studentName");
+		session.removeAttribute("studentId");
+		System.out.println("session removed for this Student");
+		
+	}
+	
+
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView adminDashboard() {
+	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView("studentLogin");
 
 		return mv;
 	}
-
 	
-	@RequestMapping(value = "/index",method = RequestMethod.GET)
-	public ModelAndView student()
+	
+	@RequestMapping(value="/logout",method=RequestMethod.POST)
+	public ModelAndView logout(HttpServletRequest request)
 	{
-		ModelAndView mv=new ModelAndView("index");
+ModelAndView mv=new ModelAndView("studentLogin");
+		
+		HttpSession session=request.getSession();
+		
+		removeSession(request);
 		
 		return mv;
 	}
+	
+
+	
+	@RequestMapping(value = "/index",method = RequestMethod.GET)
+	public ModelAndView studentIndex()
+	{
+		ModelAndView mv=new ModelAndView("studentLogin");
+		
+		return mv;
+	}
+	
+	
+	@RequestMapping(value="/show/studentdashboard",method=RequestMethod.GET)
+	public ModelAndView dashboard()
+	{
+		ModelAndView mv=new ModelAndView("index");
+		return mv;
+	}
+	
+	@RequestMapping(value="/show/studentdashboard",method=RequestMethod.POST)
+	public ModelAndView studentDashboard(HttpServletRequest request,@RequestParam Map<String,String> requestParams)
+	{
+		ModelAndView mv2=new ModelAndView("studentLogin");
+		ModelAndView mv=new ModelAndView("studentDashboard");
+		
+		
+HttpSession session=request.getSession();
+		
+		Student student;
+		
+		if(session.getAttribute("studentEmail")==null)
+		{
+			student = studentRepo.findByEmail(requestParams.get("email")).orElse(null);
+			if(student!=null)
+			{
+				if (student.getPassword().equals(requestParams.get("password"))) {
+					createSession(request, student);
+					mv.addObject("studentDetail", student.getName());
+					return mv;
+				} else {
+					mv2.addObject("error", "You entered wrong Password");
+					return mv2;
+				}		
+			}
+			else
+			{
+				mv2.addObject("error", "Email not exist");
+				return mv2;
+			}
+		}
+		else
+		{
+		
+			if(requestParams.get("email").equals((String)session.getAttribute("studentEmail")))
+			{
+				String sessionEmail=(String)session.getAttribute("studentEmail");
+				student = studentRepo.findByEmail(sessionEmail).orElse(null);
+				mv.addObject("studentDetail", student.getName());
+				return mv;
+			}
+			else
+			{
+				
+				removeSession(request);
+				student = studentRepo.findByEmail(requestParams.get("email")).orElse(null);
+				createSession(request, student);
+				mv.addObject("studentDetail", student.getName());
+				return mv;
+			}
+			
+		}
+		
+	}
+	
+	@RequestMapping(value="/show/showdashboard",method=RequestMethod.GET)
+	public ModelAndView showDashboard()
+	{
+		ModelAndView mv=new ModelAndView("index");
+		return mv;
+	}
+
+	
+	
+	@RequestMapping(value = "/show/deletestudent/{id}",method=RequestMethod.POST)
+	public ModelAndView deleteStudents(@PathVariable("id") Object id)
+	{
+		ModelAndView mv=new ModelAndView("redirect:/student/show/students");
+		
+		String studentIdCollection=id.toString();
+		
+		
+		if(studentIdCollection.length()<2)
+		{
+		
+			studentRepo.deleteById(studentIdCollection);
+		}
+		else
+		{
+		String 	studentId[]=studentIdCollection.split(",");
+		
+		for(String ids:studentId)
+		{
+			studentRepo.deleteById(ids);
+			
+		}
+		
+		}
+		
+		return mv;
+		
+	}
+	
+	
 	
 	int pageNo=0;
 	int data=10;
@@ -161,13 +302,21 @@ public class StudentController {
 	}
 	
 	
-	@RequestMapping(value = "/show/studentRegistration",method = RequestMethod.POST)
-	public ModelAndView studentRegistration()
+	@RequestMapping(value = "/show/studentProfile/{id}",method=RequestMethod.GET)
+	public ModelAndView studentProfile(@PathVariable("id") String id)
 	{
-		ModelAndView mv=new ModelAndView("studentRegistration");
+		ModelAndView mv=new ModelAndView("studentProfile");
+		
+		Optional<Student> option=studentRepo.findById(id);
+		Student student=option.get();
+		
+		
+		mv.addObject("student",student);
 		
 		return mv;
+		
 	}
+	
 	
 	
 	@RequestMapping(value = "/show/save",method = RequestMethod.POST)
@@ -223,32 +372,23 @@ public class StudentController {
 	}
 	
 	
-	@RequestMapping(value = "/show/deletestudent/{id}",method=RequestMethod.GET)
-	public ModelAndView deleteStudent(@PathVariable("id") String id)
+	
+	@RequestMapping(value = "/show/studentRegistration",method = RequestMethod.POST)
+	public ModelAndView studentRegistration()
 	{
-		ModelAndView mv=new ModelAndView("redirect:/student/show/students");
+		ModelAndView mv=new ModelAndView("studentRegistration");
 		
-		studentRepo.deleteById(id);
 		return mv;
-		
 	}
 	
 	
 	
-	@RequestMapping(value = "/show/studentProfile/{id}",method=RequestMethod.GET)
-	public ModelAndView studentProfile(@PathVariable("id") String id)
-	{
-		ModelAndView mv=new ModelAndView("studentProfile");
-		
-		Optional<Student> option=studentRepo.findById(id);
-		Student student=option.get();
-		
-		
-		mv.addObject("student",student);
-		
-		return mv;
-		
-	}
+	
+
+	
+	
+	
+	
 	
 	
 }

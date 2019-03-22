@@ -1,5 +1,6 @@
 package com.robo.remoteacademy.controller;
 
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,31 +35,73 @@ public class AdminController {
 
 	
 
-	
 	public void createSession(HttpServletRequest request,Admin admin)
 	{
+		
+		HttpSession session=request.getSession();
 		request.getSession().setAttribute("email", admin.getEmail());
 		request.getSession().setAttribute("name", admin.getName());
 		request.getSession().setAttribute("id", admin.getAdminId());
+	
+	}
+	public void removeSession(HttpServletRequest request)
+	{
+		HttpSession session=request.getSession();
+		session.removeAttribute("email");
+		session.removeAttribute("name");
+		session.removeAttribute("id");
+		System.out.println("session removed for this Admin");
 	}
 	
 	
-	@RequestMapping("/logout")
-	public ModelAndView logOut(HttpServletRequest request){
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public ModelAndView login(HttpServletRequest request){
 		
 		ModelAndView mv=new ModelAndView("index");
 		
 		HttpSession session=request.getSession();
-		session.invalidate();
+		removeSession(request);
 		
 		return mv;
 		
 	}
 	
+	
+	@RequestMapping(value="/logout",method=RequestMethod.POST)
+	public ModelAndView logOut(HttpServletRequest request){
+		
+		ModelAndView mv=new ModelAndView("index");
+		
+		HttpSession session=request.getSession();
+		removeSession(request);
+		
+		return mv;
+		
+	}
+	
+	
+	
+	@RequestMapping(value = "/index",method = RequestMethod.GET)
+	public ModelAndView adminIndex()
+	{
+		ModelAndView mv=new ModelAndView("index");
+		
+		return mv;
+	}
+	
+	
+	@RequestMapping(value="/show/admindashboard",method=RequestMethod.GET)
+	public ModelAndView dashboard()
+	{
+		ModelAndView mv=new ModelAndView("index");
+		return mv;
+	}
+	
+	
 	@RequestMapping(value = "/show/admindashboard", method = RequestMethod.POST)
 	public ModelAndView adminDashboard(HttpServletRequest request,@RequestParam Map<String,String> requestParams) {
 		ModelAndView mv = new ModelAndView("admindashboard");
-		ModelAndView mv2 = new ModelAndView("redirect:/remoteacademy/show/index");
+		ModelAndView mv2 = new ModelAndView("index");
 
 		HttpSession session=request.getSession();
 		
@@ -70,38 +113,85 @@ public class AdminController {
 			if(admin!=null)
 			{
 				if (admin.getPassword().equals(requestParams.get("password"))) {
-					
 					createSession(request, admin);
-					
-					
-					mv.addObject("adminDetail", admin);
+					mv.addObject("adminDetail", admin.getName());
 					return mv;
 				} else {
+					mv2.addObject("error", "You entered wrong Password");
 					return mv2;
 				}		
 			}
 			else
 			{
+				mv2.addObject("error", "Email not exist");
 				return mv2;
 			}
-
 		}
 		else
 		{
-			String sessionEmail=(String)session.getAttribute("email");
-			admin = adminRepo.findByEmail(sessionEmail).orElse(null);
-			mv.addObject("adminDetail", admin);
-			return mv;
-		}
 		
+			if(requestParams.get("email").equals((String)session.getAttribute("email")))
+			{
+				String sessionEmail=(String)session.getAttribute("email");
+				admin = adminRepo.findByEmail(sessionEmail).orElse(null);
+				mv.addObject("adminDetail", admin.getName());
+				return mv;
+			}
+			else
+			{
+				removeSession(request);
+				admin = adminRepo.findByEmail(requestParams.get("email")).orElse(null);
+				createSession(request, admin);
+				mv.addObject("adminDetail", admin.getName());
+				return mv;
+			}
+			
+		}
 
 	}
+	
+	
+	@RequestMapping(value="/show/showdashboard",method=RequestMethod.POST)
+	public ModelAndView backToDashboard(HttpServletRequest request)
+	{
+		ModelAndView mv=new ModelAndView("admindashboard");
+		
+		HttpSession session=request.getSession();
+		mv.addObject("adminDetail",session.getAttribute("name"));
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/show/showdashboard",method=RequestMethod.GET)
+	public ModelAndView showDashboard()
+	{
+		ModelAndView mv=new ModelAndView("index");
+		return mv;
+	}
+	
 
-	@RequestMapping(value = "/show/deleteadmin/{id}", method = RequestMethod.GET)
-	public ModelAndView deleteAdmin(@PathVariable("id") String id) {
+	@RequestMapping(value = "/show/deleteadmin/{id}", method = RequestMethod.POST)
+	public ModelAndView deleteAdmin(@PathVariable("id") Object id) {
 		ModelAndView mv = new ModelAndView("redirect:/admin/show/admins");
 
-		adminRepo.deleteById(id);
+       String adminIdCollection=id.toString();
+		
+		if(adminIdCollection.length()<2)
+		{
+			
+			adminRepo.deleteById(adminIdCollection);
+		}
+		else
+		{
+		String 	adminId[]=adminIdCollection.split(",");
+		
+		for(String ids:adminId)
+		{
+			adminRepo.deleteById(ids);
+		
+		}
+		
+		}
 		return mv;
 
 	}
@@ -109,14 +199,10 @@ public class AdminController {
 	
 	
 	
-	
-	
-	
-	
 	int pageNo=0;
 	int data=10;
 	@RequestMapping(value = "/show/admins",method=RequestMethod.GET)
-	public ModelAndView showStudents(@RequestParam Map<String,String> requestParams,HttpServletRequest request)
+	public ModelAndView showAdmins(@RequestParam Map<String,String> requestParams,HttpServletRequest request)
 	{
 		ModelAndView mv=new ModelAndView("admins");
 		
@@ -219,7 +305,7 @@ public class AdminController {
 	
 	
 	@RequestMapping(value = "/show/adminProfile/{id}",method=RequestMethod.GET)
-	public ModelAndView studentProfile(@PathVariable("id") String id)
+	public ModelAndView AdminProfile(@PathVariable("id") String id)
 	{
 		ModelAndView mv=new ModelAndView("adminProfile");
 		
@@ -238,7 +324,7 @@ public class AdminController {
 	
 	
 	@RequestMapping(value = "/show/save",method = RequestMethod.POST)
-	public ModelAndView saveStudent(@RequestParam Map<String,String> requestParams,HttpServletRequest request)
+	public ModelAndView saveAdmin(@RequestParam Map<String,String> requestParams,HttpServletRequest request)
 	{
 		ModelAndView mv=new ModelAndView("redirect:/admin/show/admins");
 

@@ -1,5 +1,6 @@
 package com.robo.remoteacademy.controller;
 
+import java.util.Enumeration;
 import java.util.Map;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.robo.remoteacademy.model.Admin;
 import com.robo.remoteacademy.model.Student;
 import com.robo.remoteacademy.model.Teacher;
 import com.robo.remoteacademy.repository.TeacherRepository;
@@ -28,13 +30,161 @@ public class TeacherController {
 	@Autowired
 	TeacherRepository teacherRepo;
 	
+
+	
+	
+	
+	public void createSession(HttpServletRequest request,Teacher teacher)
+	{
+		request.getSession().setAttribute("teacherEmail", teacher.getEmail());
+		request.getSession().setAttribute("teacherName", teacher.getName());
+		request.getSession().setAttribute("teacherId", teacher.getTeacherId());
+	}
+	
+	public void removeSession(HttpServletRequest request)
+	{
+		HttpSession session=request.getSession();
+		
+		session.removeAttribute("teacherEmail");
+		session.removeAttribute("teacherName");
+		session.removeAttribute("teacherId");
+		System.out.println("session removed for this Teacher");
+	}
+	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView adminDashboard() {
+	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView("teacherLogin");
 
 		return mv;
 	}
+	
+	
+	
+	@RequestMapping(value="/logout",method=RequestMethod.POST)
+	public ModelAndView logOut(HttpServletRequest request){
+		
+		ModelAndView mv=new ModelAndView("teacherLogin");
+		
+		HttpSession session=request.getSession();
+		removeSession(request);
+	
+		
+		return mv;
+		
+	}
+	
+	
+	@RequestMapping(value="/index",method=RequestMethod.GET)
+	public ModelAndView adminIndex(){
+		
+		ModelAndView mv=new ModelAndView("teacherLogin");
+		return mv;
+		
+	}
+	
+	
+	
+	@RequestMapping(value="/show/teacherdashboard",method=RequestMethod.GET)
+	public ModelAndView dashboard()
+	{
+		ModelAndView mv=new ModelAndView("teacherLogin");
+		return mv;
+	}
+	
+	
+	@RequestMapping(value = "/show/teacherdashboard", method = RequestMethod.POST)
+	public ModelAndView teacherDashboard(HttpServletRequest request,@RequestParam Map<String,String> requestParams) {
+		ModelAndView mv = new ModelAndView("teacherDashboard");
+		ModelAndView mv2 = new ModelAndView("teacherLogin");
+
+		HttpSession session=request.getSession();
+		
+		Teacher teacher;
+		
+		if(session.getAttribute("teacherEmail")==null)
+		{
+			teacher = teacherRepo.findByEmail(requestParams.get("email")).orElse(null);
+			if(teacher!=null)
+			{
+				if (teacher.getPassword().equals(requestParams.get("password"))) {
+					createSession(request, teacher);
+					mv.addObject("teacherDetail", teacher.getName());
+					return mv;
+				} else {
+					mv2.addObject("error", "You entered wrong Password");
+					return mv2;
+				}		
+			}
+			else
+			{
+				mv2.addObject("error", "Email not exist");
+				return mv2;
+			}
+		}
+		else
+		{
+		
+			if(requestParams.get("email").equals((String)session.getAttribute("teacherEmail")))
+			{
+				String sessionEmail=(String)session.getAttribute("teacherEmail");
+				teacher = teacherRepo.findByEmail(sessionEmail).orElse(null);
+				mv.addObject("teacherDetail", teacher.getName());
+				return mv;
+			}
+			else
+			{
+				removeSession(request);
+				teacher = teacherRepo.findByEmail(requestParams.get("email")).orElse(null);
+				createSession(request, teacher);
+				mv.addObject("teacherDetail", teacher.getName());
+				return mv;
+			}
+			
+		}
+
+	}
+	
+	
+	
+	
+	@RequestMapping(value="/show/showdashboard",method=RequestMethod.GET)
+	public ModelAndView showDashboard()
+	{
+		ModelAndView mv=new ModelAndView("index");
+		return mv;
+	}
+	
+
+	
+	@RequestMapping(value = "/show/deleteteacher/{id}",method=RequestMethod.POST)
+	public ModelAndView deleteTeacher(@PathVariable("id") Object id)
+	{
+		ModelAndView mv=new ModelAndView("redirect:/teacher/show/teachers");
+		
+		String teacherIdCollection=id.toString();
+		
+		if(teacherIdCollection.length()<2)
+		{
+			
+			teacherRepo.deleteById(teacherIdCollection);
+		}
+		else
+		{
+		String 	teacherId[]=teacherIdCollection.split(",");
+		
+		for(String ids:teacherId)
+		{
+			teacherRepo.deleteById(ids);
+			
+		}
+		
+		}
+		return mv;
+		
+	}
+	
+	
 	
 	
 	int x=4;
@@ -143,6 +293,26 @@ Pageable pageable=new PageRequest(pageNo,data);
 	}
 	
 	
+	
+	
+	@RequestMapping(value = "/show/teacherProfile/{id}",method=RequestMethod.GET)
+	public ModelAndView teacherProfile(@PathVariable("id") String id)
+	{
+		ModelAndView mv=new ModelAndView("teacherProfile");
+		
+		Optional<Teacher> option=teacherRepo.findById(id);
+		Teacher teacher=option.get();
+		
+		
+		mv.addObject("teacher",teacher);
+		
+		return mv;
+		
+	}
+	
+	
+	
+	
 	@RequestMapping(value = "/show/save",method = RequestMethod.POST)
 	public ModelAndView saveTeacher(@RequestParam Map<String,String> requestParams)
 	{
@@ -194,33 +364,11 @@ Teacher teacher;
 		return mv;
 	}
 	
-	@RequestMapping(value = "/show/deleteteacher/{id}",method=RequestMethod.GET)
-	public ModelAndView deleteTeacher(@PathVariable("id") String id)
-	{
-		ModelAndView mv=new ModelAndView("redirect:/teacher/show/teachers");
-		
-		teacherRepo.deleteById(id);
-		return mv;
-		
-	}
+
 	
 	
 	
 	
-	@RequestMapping(value = "/show/teacherProfile/{id}",method=RequestMethod.GET)
-	public ModelAndView studentProfile(@PathVariable("id") String id)
-	{
-		ModelAndView mv=new ModelAndView("teacherProfile");
-		
-		Optional<Teacher> option=teacherRepo.findById(id);
-		Teacher teacher=option.get();
-		
-		
-		mv.addObject("teacher",teacher);
-		
-		return mv;
-		
-	}
 	
 	
 }
