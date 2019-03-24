@@ -118,7 +118,56 @@
 
 		</table>
 </form>
+<script>
 
+/***************************Teacher Delete Confirmation Box******************************/
+function teacherDeleteConfirm(n)
+{
+	x=confirm("You want to delete this Teacher Entries");
+	if(x)
+	{
+	document.getElementById("teachers").action="deleteteacher/"+n;
+	document.getElementById("teachers").method="post";
+	document.getElementById("teachers").submit();
+	}
+	else{}
+}
+
+var teacherIdCollection;
+function deleteMultipleTeacher()
+{
+	teacherIdCollection=new Set();
+	var x=document.getElementsByClassName("childCheckBox");
+	
+	for(var i=0;i<x.length;i++)
+	{
+		if(x[i].checked)
+		{
+			teacherIdCollection.add(x[i].value);
+		}
+		else
+		{
+			
+		}
+	}
+	if(teacherIdCollection.size==0){}
+	else
+	{
+		var teacherId = Array.from(teacherIdCollection);
+		teacherDeleteConfirm(teacherId);
+	}
+	
+}
+
+/***********************Pagination Data*******************/
+function showTeacherData()
+{
+	var data=document.getElementById('dataLimit').value;
+    document.location.href = "teachers?data="+data; 
+
+}
+
+</script>
 
 	</div>
 </div>

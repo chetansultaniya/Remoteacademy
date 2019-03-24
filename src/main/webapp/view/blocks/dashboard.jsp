@@ -3,50 +3,68 @@
 
 <form action="" method="get">
 	<div class="row  justify-content-center">
-		<button
-			  formaction="/student/show/students" class="col-lg-3   text-center  dd form-group text-decoration-none"><img
+		<button formaction="/student/show/students" class="col-lg-3   text-center  dd form-group text-decoration-none"><img
 			src="${baseURL}/dist/icons/student_1.png" class=" rounded-circle">
-		<p>Student</p></button> 
-		<button 
-		formaction="/teacher/show/teachers"
+		<p>Student</p>
+		</button> 
+		<button formaction="/teacher/show/teachers"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/tutor_1.png" class=" img-circle">
-		<p>Teacher</p></button> 
-		<button 
-		formaction="/admin/show/admins"
+		<p>Teacher</p>
+		</button> 
+		<button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/response_1.png" class=" img-circle mt-1">
-		<p>Admin</p></button> <a href="#"
+		<p>Admin</p>
+		</button>
+		 <button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/student_1.png" class=" img-circle">
-		<p>Batch</p></a> <a href="#"
+		<p>Batch</p>
+		</button>
+		 <button formaction="/batch/show/batches"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Batch Joiners</p></a> <a href="#"
+		<p>Batch Joiners</p></button>
+		<button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Batch Queries</p></a> <a href="#"
+		<p>Batch Queries</p></button>
+		<button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Batch Query Responses</p></a> <a href="#"
+		<p>Batch Query Responses</p>
+		</button>
+		<button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Batch Rating</p></a> <a href="#"
+		<p>Batch Rating</p>
+		</button> 
+		<button formaction="/subject/show/subjects"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/student_1.png" class=" img-circle">
-		<p>Subject</p></a> <a href="#"
+		<p>Subject</p>
+		</button> 
+		<button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Subject Joiners</p></a> <a href="#"
+		<p>Subject Joiners</p>
+		</button>
+		<button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Subject Queries</p></a> <a href="#"
+		<p>Subject Queries</p>
+		</button> 
+		<button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Subject Query Responses</p></a> <a href="#"
+		<p>Subject Query Responses</p>
+		</button> 
+		<button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Subject Rating</p></a>
+		<p>Subject Rating</p>
+		</button>
 
 
 	</div>
