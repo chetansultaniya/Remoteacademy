@@ -56,7 +56,7 @@ create table subject(
 subject_id varchar(36),
 teacher_id varchar(36) not null,
 duration varchar(15),
-timing time,
+timing varchar(100),
 subject_name varchar(100) not null,
 description TEXT,
 tution_fee varchar(10),

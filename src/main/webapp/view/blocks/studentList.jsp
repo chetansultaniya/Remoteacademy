@@ -89,7 +89,7 @@
 				
 				<c:forEach var="student" items="${studentList}">
 				
-					<tr class="clickable-row" data-href="/student/show/studentProfile/${student.studentId}">
+					<tr class="clickable-row" id="${student.studentId}" data-href="/student/show/studentProfile/${student.studentId}">
 						<td class="special-td"><div class="p-2">
 								<input type="checkbox" value="${student.studentId}" class="childCheckBox" id="child${student.studentId}"/>
 							</div></td>
@@ -121,7 +121,59 @@
 
 		</table>
 </form>
+<script>
 
+/***************************Student Delete Confirmation Box******************************/
+function studentDeleteConfirm(n)
+{
+	x=confirm("You want to delete this Student Entries");
+	if(x)
+	{
+	document.getElementById("students").action="deletestudent/"+n;
+	document.getElementById("students").method="post";
+	document.getElementById("students").submit();
+	}
+	else{}
+}
+
+
+
+/**********************Multiple Student Delete*********************/
+var studentIdCollection;
+function deleteMultipleStudent()
+{
+	studentIdCollection=new Set();
+	var x=document.getElementsByClassName("childCheckBox");
+	
+	for(var i=0;i<x.length;i++)
+	{
+		if(x[i].checked)
+		{
+			studentIdCollection.add(x[i].value);
+		}
+		else
+		{
+			
+		}
+	}
+	if(studentIdCollection.size==0){}
+	else
+	{
+		var studentId = Array.from(studentIdCollection);
+		studentDeleteConfirm(studentId);
+	}
+	
+}
+
+/***********************Pagination Data*******************/
+function showStudentData()
+{
+	var data=document.getElementById('dataLimit').value;
+    document.location.href = "students?data="+data; 
+
+}
+
+</script>
 
 	</div>
 </div>

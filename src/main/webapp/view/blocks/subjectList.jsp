@@ -1,15 +1,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+
+
 <div class="container">
-	<div class="container">
-	
-		<p class="display-4">Admin List</p>
+<div class="container border text-center w-25 success">${success}</div> 
+	<div class="container ">
+		
+		<p class="display-4">Subject List</p>
 
 
 		<div class="row p-3 text-center">
 			<div class="searchbox col-md-3 text-md-left">
 				<span>Show</span> <select id="dataLimit"
-					onchange="showAdminData()">
+					onchange="showSubjectData()">
 					<option value="10">Select</option>
 					<option value="10">10</option>
 					<option value="20">20</option>
@@ -21,11 +24,11 @@
 				</select> <span>entries</span>
 			</div>
 			<div class="col-md-3 mt-1">
-				<a href="/view/adminRegistration.jsp" class="btn btn-warning btns">Add
-					Admin</a>
+				<a href="/view/subjectRegistration.jsp" class="btn btn-warning btns">Add
+					Subject</a>
 			</div>
 			<div class="col-md-3 mt-1">
-				<button class="btn btn-danger btns" onclick="deleteMultipleAdmin()">Delete Selected</button>
+				<button class="btn btn-danger btns" onclick="deleteMultipleSubject()">Delete Selected</button>
 			</div>
 			<div class="col-md-3 mt-1">
 				<span>Search:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="text"
@@ -34,7 +37,7 @@
 		</div>
 
 
-<form id="admins">
+<form id="subjects">
 		<table class="table mytable table-hover table-sm table-responsive-md">
 			<caption class="text-center">
 				<div class="bar">
@@ -62,11 +65,15 @@
 							<input type="checkbox" class="parentCheckBox" id="parent" onclick="multiSelector()"/>
 						</div></th>
 					<th scope="col">#</th>
-					<th scope="col">Name</th>
-					<th scope="col">ID</th>
-					<th scope="col">Mob</th>
-					<th scope="col">Email</th>
-					<th scope="col">Extra</th>
+					<th scope="col">Subject Name</th>
+					<th scope="col">Subject ID</th>
+					<th scope="col">Teacher Id</th>
+					<th scope="col">Teacher Name</th>
+					<th scope="col">Duration</th>
+					<th scope="col">Timing</th>
+					<th scope="col">Description</th>
+					<th scope="col">Tution Fee</th>
+					<th scope="col">Extra1</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -74,84 +81,81 @@
 					int serialNumber = 0;
 				%>
 				
-				<c:forEach var="admin" items="${admin}">
+				<c:forEach var="subject" items="${subjectList}">
 				
-					<tr class="clickable-row" data-href="/admin/show/adminProfile/${admin.adminId}">
+					<tr class="clickable-row" data-href="/subject/show/subjectProfile/${subject.subjectId}">
 						<td class="special-td"><div class="p-2">
-								<input type="checkbox" value="${admin.adminId}" class="childCheckBox" id="child${admin.adminId}"/>
+								<input type="checkbox" value="${subject.subjectId}" class="childCheckBox" id="child${subject.subjectId}"/>
 							</div></td>
 						<td><%=++serialNumber%></td>
-						<td><strong>${admin.name}</strong></td>
-						<td><strong>${admin.adminId}</strong></td>
-						<td>${admin.mobile}</td>
-						<td>${admin.email}</td>
-						
+						<td><strong>${subject.subjectName}</strong></td>
+						<td><strong>${subject.subjectId}</strong></td>
+						<td>${subject.teacherId.teacherId}</td>
+						<td>${subject.teacherId.name}</td>
+						<td>${subject.duration}</td>
+						<td>${subject.timing}</td>
+						<td>${subject.description}</td>
+						<td>${subject.tutionFee}</td>					
 						<td class="special-td">
-						<button  type="button" class="btn btn-danger glyphicon glyphicon-remove" value="${admin.adminId}" onclick="adminDeleteConfirm(this.value)"></button>
+							<button  type="button" class="btn btn-danger glyphicon glyphicon-remove" value="${subject.subjectId}" onclick="subjectDeleteConfirm(this.value)"></button>
 						</td>
 					</tr>
 					
 				</c:forEach>
-                
-
+   
 			</tbody>
 
 		</table>
 </form>
 
+	</div>
+</div>
 <script>
-
-/***************************Admin Delete Confirmation Box******************************/
-function adminDeleteConfirm(n)
+function subjectDeleteConfirm(n)
 {
-	x=confirm("You want to delete this Admin Entries");
+	x=confirm("You want to delete this Subject Entries");
 	if(x)
 	{
-	document.getElementById("admins").action="deleteadmin/"+n;
-	document.getElementById("admins").method="post";
-	document.getElementById("admins").submit();
+	document.getElementById("subjects").action="deletesubject/"+n;
+	document.getElementById("subjects").method="post";
+	document.getElementById("subjects").submit();
 	}
 	else{}
 }
 
-
-
-/**********************Multiple Admin Delete*********************/
-var adminIdCollection;
-function deleteMultipleAdmin()
+var subjectIdCollection;
+function deleteMultipleSubject()
 {
-	adminIdCollection=new Set();
+	subjectIdCollection=new Set();
 	var x=document.getElementsByClassName("childCheckBox");
 	
 	for(var i=0;i<x.length;i++)
 	{
 		if(x[i].checked)
 		{
-			adminIdCollection.add(x[i].value);
+			subjectIdCollection.add(x[i].value);
 		}
 		else
 		{
 			
 		}
 	}
-	if(adminIdCollection.size==0){}
+	if(subjectIdCollection.size==0){}
 	else
 	{
-		var adminId = Array.from(adminIdCollection);
-		adminDeleteConfirm(adminId);
+		var subjectId = Array.from(subjectIdCollection);
+		subjectDeleteConfirm(subjectId);
 	}
 	
 }
 
 /***********************Pagination Data*******************/
-function showAdminData()
+function showSubjectData()
 {
 	var data=document.getElementById('dataLimit').value;
-    document.location.href = "admins?data="+data; 
+    document.location.href = "subjects?data="+data; 
 
 }
 
-</script>
 
-	</div>
-</div>
+</script>

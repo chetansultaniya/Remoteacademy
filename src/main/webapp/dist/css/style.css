@@ -1,6 +1,6 @@
 .con
 {
-  margin-top: 70px;
+  margin-top: 50px;
   position: relative;
 }
 
@@ -109,5 +109,10 @@ input[type="checkbox"]
 .error
 {
 	background-color:#FFCCCC;
-	
+	color:black;
+}
+.success
+{
+	background-color:#45ba4b;
+	color:white;
 }
