@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ import com.robo.remoteacademy.repository.TeacherRepository;
 @RequestMapping("/remoteacademy/")
 public class DemoController {
 
+	private static final Logger LOGGER = LogManager.getLogger(DemoController.class);
+	
 	@Autowired
 	AdminRepository adminRepo;
 	
@@ -39,6 +43,7 @@ public class DemoController {
 	@RequestMapping(value = "/show/index", method = RequestMethod.GET)
 	public ModelAndView index(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("index");
+		LOGGER.info("Opening admin dashboard");
 		ModelAndView mv2=new ModelAndView("admindashboard");
 		
 		
