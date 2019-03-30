@@ -62,22 +62,13 @@ function fixStepIndicator(n)
 }
 
 
-
-/***************************Table Row Event Handler******************************/
-$(document).ready(function($){
-  $(".clickable-row").on("click","td:not(.special-td)",function(){
-	  window.location = $(this).parent().data("href");
-  });
-});
-
-
-
 /**************************Multi Selection For Checkbox in Table***********************/
 
 var counter=0;
 function multiSelector()
 {
 	var students=document.getElementsByClassName("childCheckBox");
+	var rows=document.getElementsByClassName("clickable-row");
 	for(var i=0;i<students.length;i++)
 	{
 		if(counter%2==0)
@@ -86,7 +77,6 @@ function multiSelector()
 		}
 		else
 		{
-		
 			students[i].checked=false;
 		}
 	}
@@ -94,3 +84,16 @@ function multiSelector()
 	counter++;
 }
 
+function logoutConfirmation()
+{
+	document.getElementById("logout").action="/admin/logout";
+	document.getElementById("logout").method="post";
+	document.getElementById("logout").submit();
+}
+
+/***************************Table Row Event Handler******************************/
+$(document).ready(function($){
+  $(".clickable-row").on("click","td:not(.special-td)",function(){
+	  window.location = $(this).parent().data("href");
+  });
+});

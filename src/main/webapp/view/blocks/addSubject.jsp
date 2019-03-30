@@ -1,4 +1,4 @@
-<div class="card-header text-center bg-danger text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/subject/show/subjects"><span class="backbtn">Back</span></a>
+<div class="card-header text-center header text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/subject/show/subjects"><span class="backbtn">Back</span></a>
 <h3>Subject Registration</h3>
 </div>
 <div class="container border text-center w-25 error">${error}</div> 
@@ -12,11 +12,11 @@
     <div class="form-group row">
     <div class="form-group col"><h1>Subject Detail</h1>
   <div class="form-group">
-    <input type="text" class="form-control" name="subjectId" id="subjectId" placeholder="Enter Subject Id">
+    <input type="hidden" class="form-control" name="subjectId" id="subjectId">
   </div>
   
   <div class="form-group">
-    <input type="text" class="form-control" name="teacherId" id="teacherId" placeholder="Enter Teacher Id">
+    <input type="text" class="form-control" name="teacherEmail" id="teacherEmail" placeholder="Enter Teacher Email">
   </div>
   
   <div class="form-group">

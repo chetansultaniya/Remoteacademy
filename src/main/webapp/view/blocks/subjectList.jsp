@@ -28,7 +28,7 @@
 					Subject</a>
 			</div>
 			<div class="col-md-3 mt-1">
-				<button class="btn btn-danger btns" onclick="deleteMultipleSubject()">Delete Selected</button>
+				<button class="btn btn-danger btns" data-toggle="modal" data-target="#confirmationModel">Delete Selected</button>
 			</div>
 			<div class="col-md-3 mt-1">
 				<span>Search:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="text"
@@ -38,7 +38,7 @@
 
 
 <form id="subjects">
-		<table class="table mytable table-hover table-sm table-responsive-md">
+		<table class="table  mytable table-hover table-sm table-responsive-md">
 			<caption class="text-center">
 				<div class="bar">
 					<a href="#" class="btn">«</a>
@@ -73,7 +73,6 @@
 					<th scope="col">Timing</th>
 					<th scope="col">Description</th>
 					<th scope="col">Tution Fee</th>
-					<th scope="col">Extra1</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -96,9 +95,6 @@
 						<td>${subject.timing}</td>
 						<td>${subject.description}</td>
 						<td>${subject.tutionFee}</td>					
-						<td class="special-td">
-							<button  type="button" class="btn btn-danger glyphicon glyphicon-remove" value="${subject.subjectId}" onclick="subjectDeleteConfirm(this.value)"></button>
-						</td>
 					</tr>
 					
 				</c:forEach>
@@ -110,17 +106,34 @@
 
 	</div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="confirmationModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title id="confirmationModelTitle">Remote Academy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span>Do You Want to Delete These Subjects</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteMultipleSubject()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 function subjectDeleteConfirm(n)
 {
-	x=confirm("You want to delete this Subject Entries");
-	if(x)
-	{
+
 	document.getElementById("subjects").action="deletesubject/"+n;
 	document.getElementById("subjects").method="post";
 	document.getElementById("subjects").submit();
-	}
-	else{}
 }
 
 var subjectIdCollection;

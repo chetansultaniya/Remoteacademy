@@ -25,7 +25,7 @@
 					Teacher</a>
 			</div>
 			<div class="col-md-3 mt-1">
-				<button class="btn btn-danger btns" onclick="deleteMultipleTeacher()">Delete Selected</button>
+				<button class="btn btn-danger btns" data-toggle="modal" data-target="#confirmationModel">Delete Selected</button>
 			</div>
 			<div class="col-md-3 mt-1">
 				<span>Search:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="text"
@@ -35,7 +35,7 @@
 
 
 <form id="teachers">
-		<table class="table mytable table-hover table-sm table-responsive-md">
+		<table class="table  mytable table-hover table-sm table-responsive-md">
 			<caption class="text-center">
 				<div class="bar">
 					<a href="#" class="btn">«</a>
@@ -76,7 +76,6 @@
 					<th scope="col">Occupation</th>
 					<th scope="col">Qualification</th>					
 					<th scope="col">Experience</th>					
-					<th scope="col">Extra1</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -105,10 +104,6 @@
 						<td>${teacher.occupation}</td>
 						<td>${teacher.qualification}</td>
 						<td>${teacher.experience}</td>
-						
-						<td class="special-td">
-							<button  type="button" class="btn btn-danger glyphicon glyphicon-remove" value="${teacher.teacherId}" onclick="teacherDeleteConfirm(this.value)"></button>
-						</td>
 					</tr>
 					
 				</c:forEach>
@@ -118,19 +113,38 @@
 
 		</table>
 </form>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmationModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title id="confirmationModelTitle">Remote Academy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span>Do You Want to Delete These Teachers</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteMultipleTeacher()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+		
 <script>
 
 /***************************Teacher Delete Confirmation Box******************************/
 function teacherDeleteConfirm(n)
 {
-	x=confirm("You want to delete this Teacher Entries");
-	if(x)
-	{
+	
 	document.getElementById("teachers").action="deleteteacher/"+n;
 	document.getElementById("teachers").method="post";
 	document.getElementById("teachers").submit();
-	}
-	else{}
+
 }
 
 var teacherIdCollection;

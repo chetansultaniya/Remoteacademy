@@ -25,7 +25,7 @@
 					Admin</a>
 			</div>
 			<div class="col-md-3 mt-1">
-				<button class="btn btn-danger btns" onclick="deleteMultipleAdmin()">Delete Selected</button>
+				<button class="btn btn-danger btns" data-toggle="modal" data-target="#confirmationModel">Delete Selected</button>
 			</div>
 			<div class="col-md-3 mt-1">
 				<span>Search:&nbsp;&nbsp;&nbsp;&nbsp;</span><input type="text"
@@ -66,7 +66,6 @@
 					<th scope="col">ID</th>
 					<th scope="col">Mob</th>
 					<th scope="col">Email</th>
-					<th scope="col">Extra</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -85,10 +84,6 @@
 						<td><strong>${admin.adminId}</strong></td>
 						<td>${admin.mobile}</td>
 						<td>${admin.email}</td>
-						
-						<td class="special-td">
-						<button  type="button" class="btn btn-danger glyphicon glyphicon-remove" value="${admin.adminId}" onclick="adminDeleteConfirm(this.value)"></button>
-						</td>
 					</tr>
 					
 				</c:forEach>
@@ -99,19 +94,36 @@
 		</table>
 </form>
 
+<!-- Modal -->
+<div class="modal fade" id="confirmationModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title id="confirmationModelTitle">Remote Academy</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        You Want to Delete These Admin
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="deleteMultipleAdmin()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 
 /***************************Admin Delete Confirmation Box******************************/
 function adminDeleteConfirm(n)
 {
-	x=confirm("You want to delete this Admin Entries");
-	if(x)
-	{
+	
 	document.getElementById("admins").action="deleteadmin/"+n;
 	document.getElementById("admins").method="post";
 	document.getElementById("admins").submit();
-	}
-	else{}
 }
 
 

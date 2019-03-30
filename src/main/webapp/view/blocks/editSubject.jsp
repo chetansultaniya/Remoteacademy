@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<div class="card-header text-center bg-danger text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/subject/show/subjects"><span class="backbtn">Back</span></a>
+<div class="card-header text-center text-white header"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/subject/show/subjects"><span class="backbtn">Back</span></a>
 <h3>Edit Subject</h3></div>
 
 <div class="container mt-2" id="dataBody">
@@ -25,7 +25,7 @@
     </div>
     <div class="form-group col-md-6">
       <label>Teacher Name</label>
-      <input type="text" class="form-control" name="teacherName" value="${subject.teacherId.name}" id="inputPassword4" >
+      <input type="text" class="form-control" name="teacherName" readonly value="${subject.teacherId.name}" id="inputPassword4" >
     </div>
     
    

@@ -4,17 +4,20 @@
   position: relative;
 }
 
-.glyphicon-off
+.adminHeaderTool
 {
 	font-size:20px;
 	cursor:pointer;
 	color: white;
 }
-.glyphicon-off:hover
+.adminHeaderTool:hover
 {
 	color: black;
 }
-
+#confirmationModel
+{
+	display:none;
+}
 
 .content
 {
@@ -23,13 +26,17 @@
 .mytable
 {
 	font-size: 12px;
+	border:1px solid #cac8c6;
 }
 .img
 {
     width:64px;
     height:64px;
 }
-
+.header
+{
+	background-color:#03517e;
+}
 
 .dd
 {
@@ -56,12 +63,6 @@ p
   
 }
 
-span
-{
-    font-size:15px;
-    font-weight:bold;
-    font-family: sans-serif;
-}
 .searchbox
 {
     margin-top: 4px;

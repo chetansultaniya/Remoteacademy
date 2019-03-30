@@ -1,4 +1,4 @@
-<div class="card-header text-center bg-danger text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/teacher/show/teachers"><span class="backbtn">Back</span></a><h3>Teacher Registration</h3></div>
+<div class="card-header text-center header text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/teacher/show/teachers"><span class="backbtn">Back</span></a><h3>Teacher Registration</h3></div>
 <div class="container con border rounded w-50" >
 
     <div class="display-4 content text-center"><img src="${baseURL}/dist/icons/tutor_1.png"></div>
@@ -6,7 +6,7 @@
     <div class="form-group row">
     <div class="form-group col tab"><h1>Teacher Profile</h1>
     <div class="form-group col-md-12 mt-3">
-        <input class="form-control" name="id" id="id" placeholder="Enter Id">
+        <input type="hidden" class="form-control" name="id" id="id">
     </div>
     <div class="form-group col-md-12">
         <input class="form-control" name="firstname" id="firstname" placeholder="Enter Name">

@@ -1,11 +1,10 @@
-<div class="card-header text-center bg-danger text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/admin/show/admins"><span class="backbtn">Back</span></a>
+<div class="card-header text-center header text-white"><a class="btn btn-dark glyphicon glyphicon-menu-left float-left" href="/admin/show/admins"><span class="backbtn">Back</span></a>
 <h3>Admin Registration</h3></div>
 <div class="container con border rounded w-50">
     <div class="display-4 content text-center"><img src="${baseURL}/dist/icons/tutor_1.png"></div>
     <form class="row p-3" action="/admin/show/save" method="post" id="form">
     <div class="form-group col-md-12">
-        <label>Id</label>
-        <input class="form-control" name="id" placeholder="Enter Id">
+        <input type="hidden" class="form-control" name="id">
     </div>
     
     <div class="form-group col-md-12">
