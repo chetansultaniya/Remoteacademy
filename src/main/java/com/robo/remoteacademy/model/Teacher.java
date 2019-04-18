@@ -1,8 +1,12 @@
 package com.robo.remoteacademy.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -65,13 +69,20 @@ public class Teacher extends BaseModel {
 	@Column(name = "image")
 	private String image;
 
+	@OneToMany(mappedBy = "teacherId", cascade = CascadeType.ALL)
+	private Set<Subject> subjects;
+	
+	
 	public Teacher() {
 
 	}
 
-	public Teacher(String teacherId, String password, String name, String mobile, String email, String dob,
-			String gender, String country, String state, String city, String address, String pincode, String occupation,
-			String qualification, String experience, String image) {
+	
+
+	public Teacher(String teacherId, @NotNull String password, @NotNull String name, @NotNull String mobile,
+			@NotNull String email, String dob, String gender, String country, String state, String city, String address,
+			String pincode, String occupation, String qualification, String experience, String image,
+			Set<Subject> subjects) {
 		super();
 		this.teacherId = teacherId;
 		this.password = password;
@@ -89,7 +100,10 @@ public class Teacher extends BaseModel {
 		this.qualification = qualification;
 		this.experience = experience;
 		this.image = image;
+		this.subjects = subjects;
 	}
+
+
 
 	public String getTeacherId() {
 		return teacherId;
@@ -217,6 +231,18 @@ public class Teacher extends BaseModel {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+
+
+	public Set<Subject> getSubjects() {
+		return subjects;
+	}
+
+
+
+	public void setSubjects(Set<Subject> subjects) {
+		this.subjects = subjects;
 	}
 
 }

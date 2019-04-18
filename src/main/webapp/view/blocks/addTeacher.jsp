@@ -2,19 +2,15 @@
 <div class="container con border rounded w-50" >
 
     <div class="display-4 content text-center"><img src="${baseURL}/dist/icons/tutor_1.png"></div>
-    <form class="p-2" action="/teacher/show/save" method="post" id="form">
+    <form class="p-2" action="/teacher/show/save" method="post" id="form" enctype="multipart/form-data" modelAttribute="teacher">
     <div class="form-group row">
     <div class="form-group col tab"><h1>Teacher Profile</h1>
     <div class="form-group col-md-12 mt-3">
         <input type="hidden" class="form-control" name="id" id="id">
     </div>
     <div class="form-group col-md-12">
-        <input class="form-control" name="firstname" id="firstname" placeholder="Enter Name">
+        <input class="form-control" name="name" id="name" placeholder="Enter Name">
     </div>
-    <div class="form-group col-md-12">
-        <input class="form-control" name="lastname" id="lastname" placeholder="Enter LastName">
-    </div>
-        
     <div class="form-group col-md-12">
         <input class="form-control" name="mobile" id="mobile" placeholder="Mobile No.">
     </div>
@@ -88,11 +84,11 @@
     
     
     
-    <div class="form-group col tab"><h1>Image</h1>
+   <div class="form-group col tab"><h1>Image</h1>
     
      <div class="form-group col-md-12">
          
-    <input type="file" class="custom-file-input" name="img" id="img">
+    <input type="file" class="custom-file-input" name="image" id="image">
     <label class="custom-file-label">Choose file</label>
   
     </div>

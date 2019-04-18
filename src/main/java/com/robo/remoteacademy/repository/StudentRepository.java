@@ -17,8 +17,11 @@ import antlr.collections.List;
 
 public interface StudentRepository extends JpaRepository<Student, String>{
 
-
-	Optional<Student> findByEmail(String email);
+	@Query("select s from Student s where s.isDeleted=:isDeleted and s.email=:email")
+	Optional<Student> findByEmail(String email,boolean isDeleted);
+	
+	@Query("select s from Student s where s.isDeleted=:isDeleted and s.studentId=:studentId")
+	Optional<Student> findById(String studentId,boolean isDeleted);
 	
 	 @Query("select s from Student s where s.isDeleted=false")
 	    Page<Student> findAll(Pageable pageable);

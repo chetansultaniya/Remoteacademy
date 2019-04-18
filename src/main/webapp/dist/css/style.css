@@ -28,6 +28,22 @@
 	font-size: 12px;
 	border:1px solid #cac8c6;
 }
+.tableHead
+{
+	color:white;
+	font-size:13px;
+	background-color:#03517e;
+}
+.tableHeadRecycle
+{
+	color:white;
+	font-size:13px;
+	background-color:#d10228;
+}
+.description
+{
+	width:20%;
+}
 .img
 {
     width:64px;

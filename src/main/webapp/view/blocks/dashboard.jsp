@@ -17,6 +17,33 @@
 			src="${baseURL}/dist/icons/response_1.png" class=" img-circle mt-1">
 		<p>Admin</p>
 		</button>
+		 
+		 <button formaction="/subject/show/subjects"
+			class="col-lg-3   text-center  dd text-decoration-none"><img
+			src="${baseURL}/dist/icons/student_1.png" class=" img-circle">
+		<p>Subject</p>
+		</button> 
+		<button formaction="/subject_joiners/show/subject_joiners"
+			class="col-lg-3   text-center  dd text-decoration-none"><img
+			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
+		<p>Subject Joiners</p>
+		</button>
+		<button formaction="/admin/show/admins"
+			class="col-lg-3   text-center  dd text-decoration-none"><img
+			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
+		<p>Subject Queries</p>
+		</button> 
+		<button formaction="/admin/show/admins"
+			class="col-lg-3   text-center  dd text-decoration-none"><img
+			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
+		<p>Subject Query Responses</p>
+		</button> 
+		<button formaction="/admin/show/admins"
+			class="col-lg-3   text-center  dd text-decoration-none"><img
+			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
+		<p>Subject Rating</p>
+		</button>
+		 
 		 <button formaction="/admin/show/admins"
 			class="col-lg-3   text-center  dd text-decoration-none"><img
 			src="${baseURL}/dist/icons/student_1.png" class=" img-circle">
@@ -40,31 +67,7 @@
 			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
 		<p>Batch Rating</p>
 		</button> 
-		<button formaction="/subject/show/subjects"
-			class="col-lg-3   text-center  dd text-decoration-none"><img
-			src="${baseURL}/dist/icons/student_1.png" class=" img-circle">
-		<p>Subject</p>
-		</button> 
-		<button formaction="/admin/show/admins"
-			class="col-lg-3   text-center  dd text-decoration-none"><img
-			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Subject Joiners</p>
-		</button>
-		<button formaction="/admin/show/admins"
-			class="col-lg-3   text-center  dd text-decoration-none"><img
-			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Subject Queries</p>
-		</button> 
-		<button formaction="/admin/show/admins"
-			class="col-lg-3   text-center  dd text-decoration-none"><img
-			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Subject Query Responses</p>
-		</button> 
-		<button formaction="/admin/show/admins"
-			class="col-lg-3   text-center  dd text-decoration-none"><img
-			src="${baseURL}/dist/icons/city_1.png" class=" img-circle">
-		<p>Subject Rating</p>
-		</button>
+		
 
 
 	</div>

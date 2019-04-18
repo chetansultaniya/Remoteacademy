@@ -1,5 +1,7 @@
 package com.robo.remoteacademy.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +25,7 @@ public class Subject extends BaseModel {
 
 	
 	@ManyToOne
-	@JoinColumn(name = "teacher_id")
+	@JoinColumn(name="teacher_id")
 	private Teacher teacherId;
 
 	@NotNull
@@ -42,12 +45,21 @@ public class Subject extends BaseModel {
 	@Column(name = "tution_fee")
 	private String tutionFee;
 
+	@OneToMany(mappedBy = "subjectId", cascade = CascadeType.ALL)
+	private Set<SubjectJoiners> subjectJoiners;
+	
+	
+	
+
 	public Subject() {
 
 	}
 
-	public Subject(String subjectId, Teacher teacherId, String duration, String timing, String subjectName,
-			String description, String tutionFee) {
+	
+
+	public Subject(String subjectId, Teacher teacherId, @NotNull String duration, String timing,
+			@NotNull String subjectName, String description, String tutionFee, Set<SubjectJoiners> subjectJoiners) {
+		
 		this.subjectId = subjectId;
 		this.teacherId = teacherId;
 		this.duration = duration;
@@ -55,7 +67,10 @@ public class Subject extends BaseModel {
 		this.subjectName = subjectName;
 		this.description = description;
 		this.tutionFee = tutionFee;
+		this.subjectJoiners = subjectJoiners;
 	}
+
+
 
 	public String getSubjectId() {
 		return subjectId;
@@ -111,6 +126,14 @@ public class Subject extends BaseModel {
 
 	public void setTutionFee(String tutionFee) {
 		this.tutionFee = tutionFee;
+	}
+	
+	public Set<SubjectJoiners> getSubjectJoiners() {
+		return subjectJoiners;
+	}
+
+	public void setSubjectJoiners(Set<SubjectJoiners> subjectJoiners) {
+		this.subjectJoiners = subjectJoiners;
 	}
 
 }

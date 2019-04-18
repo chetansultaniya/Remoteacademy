@@ -2,17 +2,14 @@
 <h3>Student Registration</h3></div>
 <div class="container con border rounded w-50" >
     <div class="display-4 content text-center"><img src="${baseURL}/dist/icons/student_1.png"></div>
-   <form class="p-2" action="/student/show/save" method="post" id="form">
+   <form class="p-2" action="/student/show/save" method="post" id="form" enctype="multipart/form-data" modelAttribute="student">
     <div class="form-group row">
     <div class="form-group col tab"><h1>Student Profile</h1>
     <div class="form-group col-md-12 mt-3">
-        <input type="hidden" class="form-control" name="id" id="id" value="">
+        <input type="hidden" class="form-control" name="studentId" id="studentId" value="">
     </div>
     <div class="form-group col-md-12">
-        <input class="form-control" name="firstname" id="firstname" placeholder="Enter Name">
-    </div>
-    <div class="form-group col-md-12">
-        <input class="form-control" name="lastname" id="lastname" placeholder="Enter LastName">
+        <input class="form-control" name="name" id="name" placeholder="Enter Name">
     </div>
         
     <div class="form-group col-md-12">
@@ -72,7 +69,7 @@
         <input class="form-control" name="course" id="course" placeholder="e.g. PCM,PCB,BE,MCA">
     </div>
     <div class="form-group col-md-12">
-        <input class="form-control" name="class"  id="class" placeholder="e.g. 12th,1st yr">
+        <input class="form-control" name="studentClass"  id="studentClass" placeholder="e.g. 12th,1st yr">
     </div>
     <div class="form-group col-md-12">
         <input class="form-control" name="institute" id="institute" placeholder="e.g Sagar Institute of Reaserch & Technology Indore">
@@ -92,7 +89,7 @@
     
      <div class="form-group col-md-12">
          
-    <input type="file" class="custom-file-input" name="img" id="img">
+    <input type="file" class="custom-file-input" name="image" id="image">
     <label class="custom-file-label">Choose file</label>
   
     </div>

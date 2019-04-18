@@ -22,6 +22,7 @@ public class SubjectJoiners extends BaseModel {
 	@JoinColumn(name = "subject_id")
 	private Subject subjectId;
 	
+	private Long counter;
 	
 	@ManyToOne
 	@JoinColumn(name = "student_id")
@@ -29,6 +30,10 @@ public class SubjectJoiners extends BaseModel {
 
 	public SubjectJoiners() {
 	
+	}
+	public SubjectJoiners(Subject subjectId,Long counter) {
+		this.subjectId = subjectId;
+		this.counter=counter;	
 	}
 
 	public SubjectJoiners(String subjectJoinerId, Subject subjectId, Student studentId) {
@@ -60,6 +65,11 @@ public class SubjectJoiners extends BaseModel {
 	public void setStudentId(Student studentId) {
 		this.studentId = studentId;
 	}
-
+	public Long getCounter() {
+		return counter;
+	}
+	public void setCounter(Long counter) {
+		this.counter = counter;
+	}
 	
 }

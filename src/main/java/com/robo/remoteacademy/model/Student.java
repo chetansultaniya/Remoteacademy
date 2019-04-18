@@ -1,8 +1,12 @@
 package com.robo.remoteacademy.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -65,13 +69,23 @@ public class Student extends BaseModel{
 	@Column(name = "image")
 	private String image;
 
+	
+	
+	@OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
+	private Set<SubjectJoiners> subjectJoiners;
+	
+	
 	public Student() {
 		
 	}
 
-	public Student(String studentId, String password, String name, String mobile, String email, String dob,
-			String gender, String country, String state, String city, String address, String pincode,
-			String studentClass, String course, String institute, String image) {
+	
+	
+	
+	public Student(String studentId, @NotNull String password, @NotNull String name, @NotNull String mobile,
+			@NotNull String email, String dob, String gender, String country, String state, String city, String address,
+			String pincode, String studentClass, String course, String institute, String image,
+			Set<SubjectJoiners> subjectJoiners) {
 		super();
 		this.studentId = studentId;
 		this.password = password;
@@ -89,7 +103,11 @@ public class Student extends BaseModel{
 		this.course = course;
 		this.institute = institute;
 		this.image = image;
+		this.subjectJoiners = subjectJoiners;
 	}
+
+
+
 
 	public String getStudentId() {
 		return studentId;
@@ -217,6 +235,14 @@ public class Student extends BaseModel{
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public Set<SubjectJoiners> getSubjectJoiners() {
+		return subjectJoiners;
+	}
+
+	public void setSubjectJoiners(Set<SubjectJoiners> subjectJoiners) {
+		this.subjectJoiners = subjectJoiners;
 	}
 	
 	

@@ -56,7 +56,7 @@
 				</div>
 
 			</caption>
-			<thead class="thead-light">
+			<thead class="tableHead">
 				<tr>
 					<th scope="col"><div class="p-2">
 							<input type="checkbox" class="parentCheckBox" id="parent" onclick="multiSelector()"/>
